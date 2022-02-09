@@ -17,13 +17,6 @@ function onProductClick(product){
     //save to local storage
     localStorage.setItem('selectedProduct',JSON.stringify(product))
 }
-//call getStripeProducts
-
-// add event listner 
-// addEventListener mouse positions jqueryy
-
-
-
 
 
 
@@ -35,6 +28,7 @@ function Home() {
     useEffect(() => {
         //async
         const  getProducts  = async () =>{
+            let productsTEMP;
             fetch('http://localhost:5001/jazmiro/us-central1/api/square/products',{
                 method:'GET',
                 headers:{
@@ -47,64 +41,64 @@ function Home() {
             })
             .then(response => response.json())
             .then(res => {
-                // get featured products from localStorage
-
-                let newProductTEMP = res.objects
+                // Products
+                productsTEMP = res.objects
+                setFeaturedProducts(res.objects)
+                //array async map fetch
                 const getItemWithImage = async () =>{
 
-                     const rtg = await Promise.map(res.objects, async(product,index) => { 
-                            await fetch('http://localhost:5001/jazmiro/us-central1/api/square/products/image',{
+                    let  results = await Promise.all(productsTEMP.map(async (item) => {
+                        
+                        return  fetch('http://localhost:5001/jazmiro/us-central1/api/square/products/image',{
                             method:'POST',
-                            body:JSON.stringify({   
-                                image_id:product.item_data.image_ids[0]
-                            }),
                             headers:{
                                 //Access-Control-Allow-Origin
                                 'Access-Control-Allow-Origin':'*',
                                 'Square-Version': '2022-01-20',
                                 'Authorization':'Bearer EAAAENt1YVTeAE8xwkjyU3afL9UZmdNR_F479-m-FxZvJsctRqGQ4NyrGYc4XfGx',
-                                'Content-Type':'application/json',
-    
-                            }
-    
+                                'Content-Type':'application/json'
+                            } ,
+                            body:JSON.stringify({
+                                image_id:item.item_data.image_ids[0]  
+                            })
+                            
+                        }).then(response => response.json())
+                        .then(imageObject => {
+                            return imageObject.objects[0]
                         })
-                        .then(response => response.json())
-                        .then(imageObject => {   
-                            console.log("First")
-                            newProductTEMP[index] = Object.assign(product,{image:imageObject.objects[0].image_data.url})
-                            console.log(newProductTEMP[index])
-                            return newProductTEMP
-                        })
-                        .then(newProduct => {
-                            console.log("Second")
-                            setFeaturedProducts(newProduct)
-                            return newProduct
-                        })
-                        .catch(err => console.log(err))
-                    })
-                    rtg.then(() => {
-                        console.log("Third")
-                        setFeaturedProductsHTML(newProductTEMP)
-                    })
                     
+                    }));
+                    return results
                 }
-                getItemWithImage().then(() => {
-                    console.log("Third")
-                })
-                
-        })
-        .then(res => {
-        })
-        .catch(err => console.log(err))
-        }
 
+                getItemWithImage()
+                .then((res) => {
+                    return res
+                })
+                .then(res => {
+                    let updatedProducts = productsTEMP.map((product,index) => {
+                        let productTEMP = product
+                        productTEMP.image = res[index].image_data.url
+                        console.log('res',res)
+                        return productTEMP
+                    })
+                    console.log(updatedProducts)
+                    setFeaturedProducts(updatedProducts)
+                })
+
+            })
+            .catch(err => console.log(err))
+        }
         
         getProducts()
+            
         
     },[])
+
     useEffect(() => {
         //map featuredProducts to featuredProductsHTML
         console.log("==========")
+        console.log(featuredProducts)
         let featuredProductsHTMLTEMP = featuredProducts.map((product,index) => {
             return(
                 <div className="featured-product-block" key={index}>
