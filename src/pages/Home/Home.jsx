@@ -89,7 +89,7 @@ function Home() {
                     
                 }
                 getItemWithImage().then(() => {
-                    console.log("Third")
+                    console.log("Thirrd")
                 })
                 
         })
