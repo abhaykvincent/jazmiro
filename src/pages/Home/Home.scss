@@ -1,0 +1,462 @@
+@import '../../style/variables/_colors.scss';
+@import '~antd/dist/antd.css';
+
+.ant-space {
+    width: 100%;
+    .ant-collapse-header{
+        font-size: 1.2rem;font-weight: bold;
+        color: rgba(0, 0, 0, 0.747);
+        font-weight: 500;
+    }
+    .ant-collapse-content-box{
+        background-color:white;
+    }
+    .site-collapse-custom-collapse .site-collapse-custom-panel{
+        margin-bottom: 0;
+    }
+  }
+.home{
+
+    h1{
+
+        margin-top: 8px*15;
+        margin-bottom: 8px*5;
+    }
+    .home-header{
+        p{
+            font-size: 8px*2;
+            color: rgba(0, 0, 0, 0.8);
+        };
+    }
+    .message{
+
+        width: 8px*50;;
+        margin: 0 auto;
+        .carousel-indicators{
+            z-index: -1;
+        }
+
+        
+        .carousel-control-prev-icon, .carousel-control-next-icon{
+            width: 1.5rem !important;
+            height: 1.5rem !important;
+            margin-top: -8px;
+        }
+    }
+    .hero-message{
+        display: grid;
+        margin: 0 auto;
+        grid-template-columns: 1fr;
+        text-align: center; 
+        background-color: $primaryColor-4;
+        color: $primaryColorDark;
+        padding: 8px;
+        margin-bottom: 8px;
+        .message{
+            text-align: center;
+        }
+    }
+    .hero{
+        position: relative;
+        height:8px*60;
+        width: 100%;
+        background-color: $primaryColor-5;
+        margin-bottom: 8px;
+        .carousel {
+            position: absolute;
+            height:8px*60;
+            width: 100%;
+            .hero-1{
+                height: 100%;
+                width: 100%;
+                background-image: url('https://medias.utsavfashion.com/media/wysiwyg/home/2021/3012/hs-thu-gen-yes-newyearcheer-301221.jpg');
+                background-size: cover;
+                background-position: center center;
+            }
+            .hero-2{
+                height: 100%;
+                width: 100%;
+                background-image: url('https://kalkifashion.com.imgeng.in/media/wysiwyg/sarees-slider-banner-30-12-21.webp');
+                background-size: cover;
+                background-position: center center;
+            }
+            .hero-3{
+                height: 100%;
+                width: 100%;
+                background-image: url('../../media/images/BANNER-TEST-2.svg');
+                background-size: cover;
+                background-position: center right;
+            }
+        }
+        .carousel-caption{
+            top: 0px;
+            color: $primaryColorDark;
+        }
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .hero-banner{
+        height: 8px*12;
+        background-color: $primaryColor-3;
+        padding: 8px;
+        margin-bottom: 8px*2;
+        margin-top: 8px*2;
+        opacity: 0;
+    }
+    .hero-attributes{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 8px;
+        margin-top: 8px*3;
+        margin-bottom: 8px*3;
+        .hero-attribute{
+            border: 1px solid $primaryColor-4;
+            padding: 8px;
+        }
+    }
+    .hero-title{
+        margin: 0;
+        padding: 0 10vw;
+    }
+    .hero-subtitle{
+        font-size: 3em;
+        color: $primaryColor-2;
+        padding: 0;
+    }
+    .main-featured-section{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 8px*5;
+        margin-top: 8px*15;
+        margin-bottom: 8px*10;
+       
+        .featured-menus{
+            display: grid;
+            align-content: center;
+            justify-items: center;
+            height: 100%;
+            background-color: $primaryColor-5;
+            padding: 8px*10;
+            .menus{
+                display: grid;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 1fr 1fr;
+                .tagline{
+                    padding: 8px*5;
+                    border-radius: 0px;;
+                    &:nth-child(1){
+                        border-right: 1px solid $primaryColor-2;
+                        border-bottom: 1px solid $primaryColor-2;
+                    }
+                    &:nth-child(2){
+                        border-bottom: 1px solid $primaryColor-2;
+                    }
+                    &:nth-child(3){
+                        border-right: 1px solid $primaryColor-2;
+                    }
+                    &:nth-child(4){
+                    }
+
+                    .icon{
+                        display: inline-block;
+                        width: 8px*5;
+                        height: 8px*5;
+                        margin-bottom: 8px*4;
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        .anticon{
+                            font-size: 8px*5;
+                            color: $primaryColorDark;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .featured-collections{
+        .featured-collections-header{
+            width: 8px*80;
+            margin: 0 auto;
+            margin-top: 8px*10;
+        }
+        .featured-collection{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 8px*5;
+            margin-bottom: 8px*8;
+            .featured-collection-block{
+            }
+            &.c3{
+            grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+    }
+    .featured-products{
+        .featured-product{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-gap: 8px*5;
+            margin-bottom: 8px*8;
+            &.c3{
+            grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+    }
+    .featured-faq{
+        margin-top: 8px*20;
+        .frequently-asked-questions{
+            width: 60%;
+            .ant-collapse-header{
+                font-size: 1.8rem;
+                font-weight: 500;
+                padding: 8px*2;
+            }
+            p{
+                font-size: 1.5rem;;
+                font-weight: 500;
+                text-align: left;
+                padding: 8px 8px*4;
+                color: rgba(0, 0, 0, 0.8);
+                font-family: 'Adam';
+
+                padding-bottom: 8px*4;
+            }
+            .ant-collapse > .ant-collapse-item > .ant-collapse-header{
+
+                background-color: $primaryBrightColor-6;
+                display: grid;
+                grid-template-columns: auto 8px*5;
+                width: 100%;
+                grid-auto-flow: right;
+                div{
+                    order:1;
+                }
+            }
+        }
+    }
+    .featurted-contact-jazmiro{
+        width: 75%;
+        margin: 0 auto;
+        border: 1px solid $primaryColor-2;
+        background-color: white;
+        padding: 8px*8;
+        margin-top: 8px*5;
+        cursor: none;
+        overflow: hidden;
+        h1{
+            margin-top: 8px*0;
+            margin-bottom: 8px*2;
+        }
+        p{
+            text-align: center;
+        }
+        .whatsapp-talk-to-button{
+            width: 8px*30;
+            height: 8px*10;
+            margin: 0 auto;
+            margin-top: 8px*5;
+            background-image: url('../../media/images/talk-to-jaz-button-001.svg');
+            z-index: 3;
+        }
+        .featured-contact-image{
+            position: fixed;
+            left: 8px*10;
+            transform: translate(0%, -50%);
+            width: 8px*25;
+            height: 8px*25;
+            margin: 0 auto;
+            margin-top: 8px*5;
+            border-radius: 60%;
+            background-size: 200%;
+            transition-duration: 0.025s;
+            background-image: url('../../../src/media/images/jazmiro-blue--wedding-custom.gif');
+            z-index: 1;
+        
+        }
+    
+    
+    }
+    .location{
+        width:100%;
+        margin: 0 auto;
+        // convert html to scss structure
+        .location-map{
+            width: 100%;
+            height: 8px*50;
+            background-image: url('../../media/images/location-001.svg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .location-address{
+            padding: 8px*5;
+            background-color: white;
+            position: absolute;
+            right: 8px*10;
+            transform: translateY(-50%);
+        }
+    }
+    .address{
+        position: relative;
+        background-position: bottom right;;
+        padding-bottom: 8px*20;
+        background-image: url('https://vg5b2ejdwb-flywheel.netdna-ssl.com/wp/wp-content/uploads/2014/11/kazuhiko-okushita.gif');
+        background-size: 8px*40 ;
+        background-position:  50% 8px*8 ;
+        .background-line{
+            position: absolute;
+            top:8px*20.8;
+            width: 100%;
+            height:8px;
+            background-image: url('../../media/images/line.png');
+            z-index: -1;
+        }
+        .address-container{
+            width: 75%;
+            transform: translateY(50%);
+            h4{
+                font-size: 1.5rem;
+                font-weight: 800;
+                margin-top: 8px*3;
+                color: rgba(141, 98, 48, 0.8);
+            }
+        }
+        .boutique-image-in-address{
+            position: absolute;
+            right: 8px*10;
+            height: 8px*50;
+            width: 8px*50;
+
+            background-size:  150%;
+            background-color: red;
+            background-image: url('https://www.namesnack.com/images/namesnack-boutique-business-names-4000x2667-20200915.jpeg?crop=1:1,smart&width=1200&dpr=2');
+            animation: address-image-animation-subtle 30s infinite;
+
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .background-in-address{
+            position: absolute;
+            width: 80%;
+            margin-left: 10%;
+            height: 8px*50;
+            background-color: rgb(247, 243, 241);
+            z-index: -1;
+        }
+    }
+    .book-appoinment{
+        margin-bottom: 8px*0;
+        height: 8px*50;
+        .book-appoinment-container{
+            width: 50%;
+            margin-left: 40%;;
+            margin-top: 8px*25;
+            text-align: center;
+            h1{
+                padding-top: 8px*10;
+            }
+        }
+        .boutique-image-in-book-appoinment{
+
+            left: 8px*10;
+            height: 8px*70;
+            width: 8px*50;
+
+            background-size: auto 150%;
+            background-color: red;
+            background-image: url('https://vilifeandstyle.com/wp-content/uploads/2021/04/BOUTIQUE-Custom.jpg');
+            animation: address-image-animation-subtle 30s infinite;
+
+            transform: translateY(-70%);
+            z-index: -1;
+        }
+    }
+}
+.featured-collection{
+    .featured-collection-block{
+        position: relative;
+
+        width: 100%;
+        padding-top: 110%;
+        background-image: url('https://kalkifashion.com.imgeng.in/media/wysiwyg/3-re-by-kalki-11-30-21.webp');
+        background-size: cover;
+        &:nth-child(2){
+            background-image: url('../../media/images/unicorn.svg');
+        }
+        .featured-cta{
+            display: inline-block;
+            padding: 8px*1.5 8px*3;
+            background-color: rgb(0, 0, 0);
+            border: 1px solid rgb(255, 255, 255);
+            color: white;
+            transform: translateY(50%);
+        }
+    }
+}
+.featured-product{
+    .featured-product-block{
+        position: relative;
+
+        width: 100%;
+        .product-image{
+            padding-top: 130%;
+            width: 100%;
+        }
+        .product{
+            font-size: 8px*2.5;
+            margin: 8px*3 0px;
+        }
+        .featured-cta{
+            font-size: 0.8rem;
+            padding: 8px*1 8px*2;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            margin-top: 8px*5;
+        }
+    }
+}
+.split-section{
+    .featured-collection-block{
+        position: relative;
+
+        width: 100%;
+        padding-top: 100%;
+        background-color: $primaryColor;
+        .featured-cta{
+            display: inline-block;
+            padding: 8px*1.5 8px*3;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            transform: translateY(50%);
+        }
+    }
+}
+.instagram-banner{
+    height: 8px*14;
+    background-image: url('../../../src/media/images/follow-su-instagram-banner-0001.png');
+    padding: 8px;
+    margin-top: 8px*20;
+}
+[data-theme='compact'] .site-collapse-custom-collapse .site-collapse-custom-panel,
+.site-collapse-custom-collapse .site-collapse-custom-panel {
+  margin-bottom: 24px;
+  overflow: hidden;
+  background: #f7f7f7;
+  border: 0px;
+  border-radius: 2px;
+}
+
+@keyframes address-image-animation-subtle {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

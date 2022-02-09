@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Rectangle_29" data-name="Rectangle 29" d="M4,0H64A16,16,0,0,1,80,16V76a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4V4A4,4,0,0,1,4,0Z" transform="translate(-407 -283)" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_65" data-name="Group 65" transform="translate(407 283)">
+    <path id="Path_24" data-name="Path 24" d="M4,0H64A16,16,0,0,1,80,16V76a4,4,0,0,1-4,4H4a4,4,0,0,1-4-4V4A4,4,0,0,1,4,0Z" transform="translate(-407 -283)" fill="rgba(255,255,255,0.2)" opacity="0"/>
+    <g id="Mask_Group_12" data-name="Mask Group 12" clip-path="url(#clip-path)">
+      <g id="Group_54" data-name="Group 54" transform="translate(-2)">
+        <path id="Path_22" data-name="Path 22" d="M49.883-51.8,12.422-3.359H45.478V0H.7V-1.289L37.07-48.437H6.049V-51.8Z" transform="translate(-391 -216)" fill="#241405" opacity="0.9"/>
+        <text id="J" transform="translate(-387 -217)" fill="#f2992d" font-size="76" font-family="LaoMN-Bold, Lao MN" font-weight="700"><tspan x="0" y="0">J</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

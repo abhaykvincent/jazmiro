@@ -1,0 +1,20 @@
+.addAttributesButton{
+    height: 0px;
+    overflow: hidden;
+    &.show{
+        height: auto;
+    }
+}
+.addAttribute{
+    height: 0px;
+    &.show{
+        height: auto;
+    }
+}
+.attributesHide{
+    height: 0px;
+    overflow: hidden;
+    &.show{
+        height: auto;
+    }
+}
