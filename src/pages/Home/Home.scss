@@ -197,7 +197,7 @@
     .featured-products{
         .featured-product{
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr  1fr;
             grid-gap: 8px*5;
             margin-bottom: 8px*8;
             &.c3{
@@ -243,7 +243,8 @@
         border: 1px solid $primaryColor-2;
         background-color: white;
         padding: 8px*8;
-        margin-top: 8px*5;
+        margin-top: 8px*35;
+        margin-bottom: 8px*15;
         cursor: none;
         overflow: hidden;
         h1{
@@ -401,8 +402,49 @@
         position: relative;
 
         width: 100%;
+        .collection-tag{
+            display: grid;
+            height: 8px*6;
+            overflow: hidden;
+            margin: 8px;
+            margin-bottom: 8px*2;
+            .tag-container{
+                padding: 8px*2;
+                margin-top: 8px*1;
+                transition-delay: 0.05s;
+                transition-duration: 0.2s;
+                .tag{
+                    display: inline-block;
+                    padding: 4px 8px*2;
+                    background-color:rgba(141, 98, 48, 0.1);
+                    font-size: 8PX*1.5;
+                    margin-bottom: 8px;
+                    //ALL CAPS 
+                    text-transform: uppercase;
+                }
+            }
+            .buy-now{
+                display: inline-block;
+                padding: 8px 8px*4;
+                background-color: rgb(26, 23, 21);
+                font-size: 8PX*1.5;
+                margin-bottom: 8px;
+                font-weight: bold;
+                color: white;
+                //ALL CAPS 
+                text-transform: uppercase;
+            }
+
+        }
+        .featured-product-name{
+            h4{
+
+                font-size: 8px*2.2;
+                font-weight: 400;
+            }
+        }
         .product-image{
-            padding-top: 130%;
+            padding-top: 100%;
             width: 100%;
         }
         .product{
@@ -415,6 +457,68 @@
             background-color: rgb(0, 0, 0);
             color: white;
             margin-top: 8px*5;
+        }
+        .featured-product-price{
+            p{
+                text-decoration: line-through;
+                color:rgba(141, 98, 48, 0.5);
+                font-weight: bold;
+                font-size: 1rem;
+                margin: 0;
+                transform:scale(1);
+                transition-duration:  3s;
+            }
+            h4{
+                font-size: 1.3rem;
+                font-weight: 400;
+                margin: 0;
+                color: rgba(36, 27, 18, 0.8);
+                transform:scale(1);
+                transition-duration:  3s;
+            }
+        }
+        &:hover{
+            .collection-tag{
+                display: grid;
+                height: 8px*6;
+                overflow: hidden;
+                .tag-container{
+                    padding: 8px*2;
+                    margin-top: -8px*6;
+                    transition-delay: 0.1s;
+                    transition-duration: 0.3s;
+                    .tag{
+                        display: inline-block;
+                        padding: 4px 8px*2;
+                        background-color:rgba(141, 98, 48, 0.1);
+                        font-size: 8PX;
+                        margin-bottom: 8px;
+                        //ALL CAPS 
+                        text-transform: uppercase;
+                    }
+                }
+                .buy-now{
+                    display: inline-block;
+                    padding: 8px 8px*4;
+                    background-color: rgb(26, 23, 21);
+                    font-size: 8PX*1.5;
+                    margin-bottom: 8px;
+                    color: white;
+                    //ALL CAPS 
+                    text-transform: uppercase;
+                }
+    
+            }
+            .featured-product-price{
+                p{
+                    transform:scale(1.1);
+                    transition-duration:3s ;
+                }
+                h4{
+                    transform:scale(0.95);
+                    transition-duration:3s ;
+                }
+            }
         }
     }
 }

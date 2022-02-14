@@ -6,6 +6,7 @@ import React, { useState,useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
 import $ from 'jquery'
 import './Home.scss'
+import { Link } from 'react-router-dom';
 
 //get products from stripe using rest api
 
@@ -25,6 +26,11 @@ function Home() {
     //async await for products
     const [featuredProducts,setFeaturedProducts] = useState([]);
     const [featuredProductsHTML,setFeaturedProductsHTML] = useState([]);
+    const onProductClick=(product)=>{
+        //go to url for product
+        history.push('/product');
+
+    }
     useEffect(() => {
         //async
         const  getProducts  = async () =>{
@@ -49,6 +55,7 @@ function Home() {
 
                     let  results = await Promise.all(productsTEMP.map(async (item) => {
                         
+                        if (item.item_data.image_ids!= undefined)
                         return  fetch('http://localhost:5001/jazmiro/us-central1/api/square/products/image',{
                             method:'POST',
                             headers:{
@@ -77,10 +84,16 @@ function Home() {
                 })
                 .then(res => {
                     let updatedProducts = productsTEMP.map((product,index) => {
-                        let productTEMP = product
-                        productTEMP.image = res[index].image_data.url
-                        console.log('res',res)
-                        return productTEMP
+                        if(res[index]!=undefined)   {
+
+                            let productTEMP = product
+                            productTEMP.image = res[index].image_data.url
+                            console.log('res',res)
+                            return productTEMP
+                        }
+                        else{
+                            return product
+                        }
                     })
                     console.log(updatedProducts)
                     setFeaturedProducts(updatedProducts)
@@ -100,20 +113,36 @@ function Home() {
         console.log("==========")
         console.log(featuredProducts)
         let featuredProductsHTMLTEMP = featuredProducts.map((product,index) => {
+            let price;
+            price = product.item_data.variations[0].item_variation_data.price_money== undefined  ? 0 : product.item_data.variations[0].item_variation_data.price_money.amount/100
+            console.log(price);
+            console.log(product.id)
             return(
-                <div className="featured-product-block" key={index}>
-                    <div className="product-image"
-                    style={{backgroundImage:`url(${product.image})`}}
+                <Link to={`/product/${product.id}`} key={index}>
+                    <div className="featured-product-block" key={index}
+                        //ONCLICK GO TO PRODUCT SINGLE PAGE
+                        onClick={() => onProductClick(product)}
                     >
+                        <div className="product-image"
+                        style={{backgroundImage:`url(${product.image})`}}
+                        >
+                            
+                        </div>
                         
+                        <div className="collection-tag">
+                            <div className="tag-container">
+                                <div className="tag">Unicorn </div>
+                            </div>
+                            <div className="buy-now">View Product</div>
+                        </div><div className="featured-product-name">
+                            <h4>{product.item_data? product.item_data.name:'loading...' }</h4>
+                        </div>
+                        <div className="featured-product-price">
+                            <p className="was">{(price*1.2).toFixed(2)== 0 ? 'Price unavailable. Jazmiro Stylist would happy to helpy. Chat Now': `₹${(price*1.2).toFixed(2)}`}</p>
+                            <h4>{price==0 ? ``: `₹${price}`}</h4>
+                        </div>
                     </div>
-                    <div className="featured-product-name">
-                        <h4>{product.item_data? product.item_data.name:'loading...' }</h4>
-                    </div>
-                    <div className="featured-product-price">
-                        <h4>{/* product.price_money.amount */}</h4>
-                    </div>
-                </div>
+                </Link>
             )
         })
         setFeaturedProductsHTML(featuredProductsHTMLTEMP)
@@ -300,33 +329,6 @@ const text = `
                 </Collapse>
                 </Space>
             </section>
-            <section className="contact-jazmiro"
-            onMouseMove={(e) => {
-                setMousePosition(
-                    {
-                        x: e.clientX,
-                        y: e.clientY
-                    }
-                )
-            }}
-
-            >
-                <div className="featurted-contact-jazmiro">
-                    <h2>
-                    Still have a Question?
-                    </h2>
-                    <p>If you can’t find answer to your questions our FAQ, you can always contact us. We will answer to you shortly.</p>
-                    <div className="whatsapp-talk-to-button">
-
-                    </div>
-                    {/* <div className="featured-contact-image"
-                    style={{
-                        top: `${mousePosition.y}px`,
-                        left: `${mousePosition.x}px`
-                    }}
-                    ></div> */}
-                </div>
-            </section>
             {/* <div className="instagram-banner"></div> */}
             <div className="location">
                 <h1>Location</h1>
@@ -385,7 +387,34 @@ const text = `
                 </div>
                 <div className="boutique-image-in-book-appoinment"></div>
             </div>
-        </div>
+            <section className="contact-jazmiro"
+            onMouseMove={(e) => {
+                setMousePosition(
+                    {
+                        x: e.clientX,
+                        y: e.clientY
+                    }
+                )
+            }}
+
+            >
+                <div className="featurted-contact-jazmiro">
+                    <h2>
+                    Still have a Question?
+                    </h2>
+                    <p>If you can’t find answer to your questions our FAQ, you can always contact us. We will answer to you shortly.</p>
+                    <div className="whatsapp-talk-to-button">
+
+                    </div>
+                    {/* <div className="featured-contact-image"
+                    style={{
+                        top: `${mousePosition.y}px`,
+                        left: `${mousePosition.x}px`
+                    }}
+                    ></div> */}
+                </div>
+            </section>
+            </div>
     
 
     )
