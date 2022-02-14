@@ -6,6 +6,7 @@ import React, { useState,useEffect } from 'react'
 import { Carousel } from 'react-bootstrap'
 import $ from 'jquery'
 import './Home.scss'
+import { Link } from 'react-router-dom';
 
 //get products from stripe using rest api
 
@@ -17,13 +18,6 @@ function onProductClick(product){
     //save to local storage
     localStorage.setItem('selectedProduct',JSON.stringify(product))
 }
-//call getStripeProducts
-
-// add event listner 
-// addEventListener mouse positions jqueryy
-
-
-
 
 
 
@@ -32,9 +26,15 @@ function Home() {
     //async await for products
     const [featuredProducts,setFeaturedProducts] = useState([]);
     const [featuredProductsHTML,setFeaturedProductsHTML] = useState([]);
+    const onProductClick=(product)=>{
+        //go to url for product
+        history.push('/product');
+
+    }
     useEffect(() => {
         //async
         const  getProducts  = async () =>{
+            let productsTEMP;
             fetch('http://localhost:5001/jazmiro/us-central1/api/square/products',{
                 method:'GET',
                 headers:{
@@ -47,79 +47,102 @@ function Home() {
             })
             .then(response => response.json())
             .then(res => {
-                // get featured products from localStorage
-
-                let newProductTEMP = res.objects
+                // Products
+                productsTEMP = res.objects
+                setFeaturedProducts(res.objects)
+                //array async map fetch
                 const getItemWithImage = async () =>{
 
-                     const rtg = await Promise.map(res.objects, async(product,index) => { 
-                            await fetch('http://localhost:5001/jazmiro/us-central1/api/square/products/image',{
+                    let  results = await Promise.all(productsTEMP.map(async (item) => {
+                        
+                        if (item.item_data.image_ids!= undefined)
+                        return  fetch('http://localhost:5001/jazmiro/us-central1/api/square/products/image',{
                             method:'POST',
-                            body:JSON.stringify({   
-                                image_id:product.item_data.image_ids[0]
-                            }),
                             headers:{
                                 //Access-Control-Allow-Origin
                                 'Access-Control-Allow-Origin':'*',
                                 'Square-Version': '2022-01-20',
                                 'Authorization':'Bearer EAAAENt1YVTeAE8xwkjyU3afL9UZmdNR_F479-m-FxZvJsctRqGQ4NyrGYc4XfGx',
-                                'Content-Type':'application/json',
-    
-                            }
-    
+                                'Content-Type':'application/json'
+                            } ,
+                            body:JSON.stringify({
+                                image_id:item.item_data.image_ids[0]  
+                            })
+                            
+                        }).then(response => response.json())
+                        .then(imageObject => {
+                            return imageObject.objects[0]
                         })
-                        .then(response => response.json())
-                        .then(imageObject => {   
-                            console.log("First")
-                            newProductTEMP[index] = Object.assign(product,{image:imageObject.objects[0].image_data.url})
-                            console.log(newProductTEMP[index])
-                            return newProductTEMP
-                        })
-                        .then(newProduct => {
-                            console.log("Second")
-                            setFeaturedProducts(newProduct)
-                            return newProduct
-                        })
-                        .catch(err => console.log(err))
-                    })
-                    rtg.then(() => {
-                        console.log("Third")
-                        setFeaturedProductsHTML(newProductTEMP)
-                    })
                     
+                    }));
+                    return results
                 }
-                getItemWithImage().then(() => {
-                    console.log("Third")
-                })
-                
-        })
-        .then(res => {
-        })
-        .catch(err => console.log(err))
-        }
 
+                getItemWithImage()
+                .then((res) => {
+                    return res
+                })
+                .then(res => {
+                    let updatedProducts = productsTEMP.map((product,index) => {
+                        if(res[index]!=undefined)   {
+
+                            let productTEMP = product
+                            productTEMP.image = res[index].image_data.url
+                            console.log('res',res)
+                            return productTEMP
+                        }
+                        else{
+                            return product
+                        }
+                    })
+                    console.log(updatedProducts)
+                    setFeaturedProducts(updatedProducts)
+                })
+
+            })
+            .catch(err => console.log(err))
+        }
         
         getProducts()
+            
         
     },[])
+
     useEffect(() => {
         //map featuredProducts to featuredProductsHTML
         console.log("==========")
+        console.log(featuredProducts)
         let featuredProductsHTMLTEMP = featuredProducts.map((product,index) => {
+            let price;
+            price = product.item_data.variations[0].item_variation_data.price_money== undefined  ? 0 : product.item_data.variations[0].item_variation_data.price_money.amount/100
+            console.log(price);
+            console.log(product.id)
             return(
-                <div className="featured-product-block" key={index}>
-                    <div className="product-image"
-                    style={{backgroundImage:`url(${product.image})`}}
+                <Link to={`/product/${product.id}`} key={index}>
+                    <div className="featured-product-block" key={index}
+                        //ONCLICK GO TO PRODUCT SINGLE PAGE
+                        onClick={() => onProductClick(product)}
                     >
+                        <div className="product-image"
+                        style={{backgroundImage:`url(${product.image})`}}
+                        >
+                            
+                        </div>
                         
+                        <div className="collection-tag">
+                            <div className="tag-container">
+                                <div className="tag">Unicorn </div>
+                            </div>
+                            <div className="buy-now">View Product</div>
+                        </div><div className="featured-product-name">
+                            <h4>{product.item_data? product.item_data.name:'loading...' }</h4>
+                        </div>
+                        <div className="featured-product-price">
+                            <p className="was">{(price*1.2).toFixed(2)== 0 ? 'Price unavailable. Jazmiro Stylist would happy to helpy. Chat Now': `₹${(price*1.2).toFixed(2)}`}</p>
+                            <h4>{price==0 ? ``: `₹${price}`}</h4>
+                        </div>
                     </div>
-                    <div className="featured-product-name">
-                        <h4>{product.item_data? product.item_data.name:'loading...' }</h4>
-                    </div>
-                    <div className="featured-product-price">
-                        <h4>{/* product.price_money.amount */}</h4>
-                    </div>
-                </div>
+                </Link>
             )
         })
         setFeaturedProductsHTML(featuredProductsHTMLTEMP)
@@ -306,33 +329,6 @@ const text = `
                 </Collapse>
                 </Space>
             </section>
-            <section className="contact-jazmiro"
-            onMouseMove={(e) => {
-                setMousePosition(
-                    {
-                        x: e.clientX,
-                        y: e.clientY
-                    }
-                )
-            }}
-
-            >
-                <div className="featurted-contact-jazmiro">
-                    <h2>
-                    Still have a Question?
-                    </h2>
-                    <p>If you can’t find answer to your questions our FAQ, you can always contact us. We will answer to you shortly.</p>
-                    <div className="whatsapp-talk-to-button">
-
-                    </div>
-                    {/* <div className="featured-contact-image"
-                    style={{
-                        top: `${mousePosition.y}px`,
-                        left: `${mousePosition.x}px`
-                    }}
-                    ></div> */}
-                </div>
-            </section>
             {/* <div className="instagram-banner"></div> */}
             <div className="location">
                 <h1>Location</h1>
@@ -391,7 +387,34 @@ const text = `
                 </div>
                 <div className="boutique-image-in-book-appoinment"></div>
             </div>
-        </div>
+            <section className="contact-jazmiro"
+            onMouseMove={(e) => {
+                setMousePosition(
+                    {
+                        x: e.clientX,
+                        y: e.clientY
+                    }
+                )
+            }}
+
+            >
+                <div className="featurted-contact-jazmiro">
+                    <h2>
+                    Still have a Question?
+                    </h2>
+                    <p>If you can’t find answer to your questions our FAQ, you can always contact us. We will answer to you shortly.</p>
+                    <div className="whatsapp-talk-to-button">
+
+                    </div>
+                    {/* <div className="featured-contact-image"
+                    style={{
+                        top: `${mousePosition.y}px`,
+                        left: `${mousePosition.x}px`
+                    }}
+                    ></div> */}
+                </div>
+            </section>
+            </div>
     
 
     )
