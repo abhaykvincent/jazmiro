@@ -23,7 +23,7 @@ function BackendUI() {
             metadata:  product.attributes
             
         }
-        console.log(NewProductREQUEST);
+        //console.log(NewProductREQUEST);
         debugger
         fetch('http://localhost:5001/jazmiro/us-central1/api/stripe/create/product',{
             method:'POST',
@@ -36,7 +36,7 @@ function BackendUI() {
         .then(data => {
             data.status= 'success';
             setNewProduct(data);    
-            console.log(data)
+            //console.log(data)
         });
     }
     function addAttribute(currentAttribute){
@@ -70,7 +70,7 @@ function BackendUI() {
             material:materials
         }
         setProduct({...product,attributes:attributes});
-        console.log(attributes);
+        //console.log(attributes);
     }
 
     return (
@@ -180,7 +180,7 @@ function BackendUI() {
                 <button onClick={   () => {
                     //add attributes to product
                     getAllcheckedAttributes();
-                    console.log(product)
+                    //console.log(product)
                     createProductOnClick();
                 }
                     } >create product</button>

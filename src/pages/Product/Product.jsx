@@ -1,65 +1,84 @@
 import React, { useState,useEffect } from 'react'
 import { Carousel } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import {getFeaturedProducts} from '../../store/features/products';
 import './Product.scss'
+import { useDispatch, useStore, useSelector } from 'react-redux';
+import { addToCart } from '../../store/features/cart';
 
 function addToCartLOCAL(product) {
-    console.log('Starting Storinfg to local store')
+    //console.log('Starting Storinfg to local store')
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     //if product is not already  in cart then add it
     if (cart.find(item => item.id === product.id)) {
-        console.log('Product already in cart')
+        //console.log('Product already in cart')
     }
     else{
 
         cart.push(product);
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log('🚀 ' + product.name + ' is added to cart');
+        //console.log('🚀 ' + product.name + ' is added to cart');
     }
     
 }
 
 function Product() {
+    let store = useStore()
+    let location = useLocation()
+    
+    const mostProducts = useSelector(state => state.products)
+    const [product,setProduct] = useState();
+    
+    const dispatch = useDispatch();
 
-    const [product, setProduct] = useState({
-        status: 'pending'
-    });
-
-    let { topicId } = useParams();
+    let { productId } = useParams();
+    console.log("id: " + productId)
     //useEffect onload
+    useEffect(
+        () => {
+            console.log('on url change')
+            dispatch(getFeaturedProducts()).then((mostProductsRETURN) => {
+                console.log(mostProductsRETURN)
+                debugger
+                let currentProduct=  mostProductsRETURN.payload.find(item => item.id === productId)
+                console.log(currentProduct)
+                setProduct(currentProduct)
+            })
+        },
+        [location]
+      )
     useEffect(() => {
-    //clear cache   
-    //PRODUCT
-    localStorage.removeItem('product');
-    let getProduct= getStripeProduct();
+
+    //scroll to top
+        dispatch(getFeaturedProducts()).then((mostProductsRETURN) => {
+            let currentProduct=  mostProductsRETURN.payload.find(item => item.id === productId)
+            console.log(currentProduct)
+            setProduct(currentProduct)
+        })
 
     },[])
+    useEffect(()=>{     
+
+        window.scrollTo(0, 0);
+
+    })
+
+    useEffect(() => {
+        console.log("Product Updated")
+        console.log(product)
+    },[product])
 
 
-
-
-    //get product by id from stripe using rest api
-    function getStripeProduct(){
-        const getproduct = fetch('http://localhost:5001/jazmiro/us-central1/api/stripe/product/'+topicId)
-        getproduct.then(res => res.json())
-        .then(res => {
-            console.log(res)
-            setProduct({
-                status: 'success',
-                id: res.id,
-                name: res.name,
-                description: res.description,
-                images: res.images,
-                price: res.price,
-            })
-        })
+    //addToCartOnClick
+    const addToCartOnClick = (product) => {
+        dispatch(addToCart(product))
     }
-    //cache product in local storage
-    function cacheProduct(){
-        localStorage.setItem('product',JSON.stringify(product));
-        console.log('🚀 '+product.name+' is cached in local storage');
-    }
+
+
+
+
+
     return (
         
         <div className="product-page">
@@ -69,25 +88,26 @@ function Product() {
                         <Carousel.Item>
                             <div className="product-image"
                                 style={{
-                                    backgroundImage: `url('${product.status != 'pending'? product.images[0]:''}')` 
+                                    backgroundImage: `url('${product? product.image.image_data.url:'' }')` 
                                 }}
                             ></div>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <div className="product-image"></div>
                         </Carousel.Item>
                     </Carousel>
                 
                                 
                 </div>
+                <div className="image-alt"
+                style={{
+                    backgroundImage: `url('${product? product.image.image_data.url:'' }')`
+                }}></div>
             </div>
             
             <div className="product-details">
-                <div className="product-style">STYLE NO {topicId}</div>
-            <h2 className="product-title">{product.status != 'pending'? product.name :'Loading'}</h2> 
+                <div className="product-style">STYLE NO {productId}</div>
+            <h2 className="product-title">{product? product.item_data.name :'Loading'}</h2> 
             <h3 className="product-price">
-                <span className="newPrice">INR {product.status!= 'pending'?product.price.unit_amount:''}</span>
-                <span className="originalPrice">INR {product.price*0.5}</span>
+                <span className="newPrice">INR {}</span>
+                <span className="originalPrice">INR {}</span>
                 
             </h3>
             <p className="product-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, cum!</p>
@@ -128,13 +148,13 @@ function Product() {
                     <button className="qty-counter-btn" type="button">+</button>
                 </div>
             </div>
-                <a className="button secondary" onClick={
+                
+            <a className="button primary" href="/order/checkout" >Buy Now</a>
+            <a className="button secondary" onClick={
                     ()=>{   
-                        addToCartLOCAL(product);
-                        cacheProduct();
+                        addToCartOnClick(product)
                     }
                     }>Add to Cart</a>
-                <a className="button primary" href="/order/checkout" onClick={cacheProduct}>Buy Now</a>
             </div>
             
         </div>
