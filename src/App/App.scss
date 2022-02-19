@@ -82,7 +82,7 @@ iframe{
     margin: 8px*1 auto;
     width: 8px*30;
     padding: 8px 0px;;
-    font-size: 8px*3;
+    font-size: 8px*2.5;
     border: 1px solid rgba(0, 0, 0, 0);
     margin: 8px*5 0px;
     border-radius: 4px;
@@ -98,6 +98,14 @@ iframe{
         background-color: rgb(255, 255, 255);
         color: rgba(0, 0, 0, 0.8);
         border:1px solid rgb(231, 184, 96);
+        &:hover{
+            background-color: rgb(255, 255, 255);
+            color: rgba(0, 0, 0, 0.8);
+        }
+    }
+    &.tertiary{
+        background-color: rgb(255, 255, 255);
+        color: rgba(0, 0, 0, 0.8);
         &:hover{
             background-color: rgb(255, 255, 255);
             color: rgba(0, 0, 0, 0.8);

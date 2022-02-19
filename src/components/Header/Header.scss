@@ -9,6 +9,9 @@
     color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
 }
+.ant-checkbox-wrapper{
+    margin: 0 !important;
+}
 .header{
     position: fixed;
     width: 100%;
@@ -23,6 +26,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
     }
+    
     .header-cart{
         position: absolute;
         right: 8px*20;
@@ -45,14 +49,14 @@
             opacity: 0.8;
             text-align: left;
         }
-
         .cart-item{
             display: grid;
-            grid-template-columns: 8px*8 auto;
-            grid-gap: 8px*2;
+            grid-template-columns: 8px*10 auto;
+            align-content: center;
+            grid-gap: 8px*4;
             .cart-item-img{
-                width: 8px*8;
-                height: 100%;
+                width: 8px*10;
+                height: 8px*10;
 
                 //fashion image url
                 background-image: url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80');
@@ -274,4 +278,40 @@
         }
     }
     
+}
+.cart-item{
+    display: grid;
+    grid-template-columns: 8px*20 auto;
+    align-content: center;
+    grid-gap: 8px*2;
+    .cart-item-img{
+        width: 8px*20;
+        height: 8px*20;
+
+        //fashion image url
+        background-image: url('https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80');
+        background-size: cover;
+        background-position: center center;
+    }
+    .cart-item-name{
+        font-size: 8px*2;
+        font-weight: bold;
+        text-align: left;
+    }
+    .cart-item-price{
+        font-size: 8px*2;
+        font-weight: normal;
+        p{
+            text-align: left;
+        }
+    }
+}
+.cart-icon{
+    display: grid;
+    justify-content: center;
+}
+.ant-checkbox-wrapper{
+    display: grid !important;
+    grid-template-columns: 8px*3 auto;
+    align-items: center !important;
 }

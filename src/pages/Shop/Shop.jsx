@@ -15,53 +15,6 @@ function getStripeProducts(){
     })
 }
 function Shop() {
-       //state for featured products
-    //async await for products
-    const [featuredProducts,setFeaturedProducts] = useState([]);
-    //featuredProductsHTML
-    const [featuredProductsHTML,setFeaturedProductsHTML] = useState('');
-    useEffect(() => {
-        let products =getStripeProducts();
-        products.then(res => {
-            console.log(res.data);
-            console.log('Response Recived.');
-            console.log('Copy.. Changing state `FeaturedProducts` .');
-            setFeaturedProducts(res.data)
-            setFeaturedProductsHTML(makeHtmlFeaturedProducts(res.data))
-        })
-    },[])
-    //make html for featured products
-    useEffect(() => {
-        if(featuredProducts.length > 0){
-            makeHtmlFeaturedProducts(featuredProducts)
-        }
-    },[featuredProducts])
-
-    const makeHtmlFeaturedProducts = (featuredProductsTemp) =>{
-        console.log('Making HTML for Featured Products');
-        let featuredProductsHTMLTemp="error"
-        if(featuredProductsTemp.length > 0){
-        featuredProductsHTMLTemp = featuredProductsTemp.map((product,index) => {
-                return(
-                <div className="product" key={product.id}>
-                    <div className="product-image-container">
-                        <div className="product-image"
-                            style={{ backgroundImage: `url(${(product.images.length>0)?product.images[0]:''})` }}
-                        ></div>
-                    </div>
-                    <a href="product/0001"><div className="product-no">Style Number :{`Product #${product.id}`}</div></a>
-                    <div className="product-name">{product.name}</div>
-                    <div className="product-price">{product.price}</div>
-                    <Button>Buy Now</Button>
-                    <br />
-                </div>
-                )
-        })
-        return featuredProductsHTMLTemp
-
-        }
-        
-    }
     return (
         <div className="shop">
             <div className="products">
@@ -88,7 +41,7 @@ function Shop() {
                 </div>
                 <h1>Shop</h1>
                 <div className="products_wrap">
-                {featuredProductsHTML}
+                {/* {featuredProductsHTM */}
                 </div>
                 <Pagination className="products-pagination">
                     <Pagination.First />
