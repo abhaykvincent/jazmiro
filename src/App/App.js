@@ -32,10 +32,6 @@ import { getCartFromCache } from '../store/features/cart';
 
 
 function App() {
-  console.log('Here we go...');
-  function gotoPreviuosPage(){
-    window.history.back();
-  }
 
 
   let store = useStore()
