@@ -13,17 +13,17 @@ function OrderCheckout() {
 
     let user ;
     const products = JSON.parse(localStorage.getItem('cart'));
-    console.log(products);
+    //console.log(products);
     //useEffect on name, email, address, phone
     useEffect(() => {
          user={name,email,address,phone}
-        console.log(user)
+        //console.log(user)
     },[name,email,address,phone ])
 
 
 
-    function createUserOnStripe(){
-        console.log('⛳️ 1');
+    /* function createUserOnStripe(){
+        //console.log('⛳️ 1');
         fetch('http://localhost:5001/jazmiro/us-central1/api/stripe/customer/create',{
             method:'POST',
             headers:{
@@ -43,7 +43,7 @@ function OrderCheckout() {
             product:product,
             customer:customerData
         }
-        console.log(order)
+        //console.log(order)
         fetch('http://localhost:5001/jazmiro/us-central1/api/stripe/order/create',{
             method:'POST',
             headers:{
@@ -54,14 +54,15 @@ function OrderCheckout() {
         .then(response => response.json())
         .then(data => 
             {
-                console.log(data)
+                //console.log(data)
             }
         );
     }
 
     function createOrderWithCustomer() {
         createUserOnStripe()
-    }
+    } */
+    console.log(products)
     return (
         <div className="checkout-page">
             <div className="checkout-inner">
@@ -133,13 +134,41 @@ function OrderCheckout() {
 
                             <label>Phone</label>
                             <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
-
-                            <button className="button primary" onClick={createOrderWithCustomer}>Submit</button>
+                            <div className="button-group">
+                                <button className="button tertiary" /* onClick={createOrderWithCustomer} */>Return to cart</button>
+                                <button className="button primary" /* onClick={createOrderWithCustomer} */>Continue Shipping</button>
+                            </div>
                         </div>
                     </div>
              
                 </div>
                 <div className="checkout-right">
+                    <h3>Order Summary</h3>
+                    <div className="order-items">
+
+
+                        {/* map cart items*/}
+                        {products.length>=1?products.map(product => (
+
+                            <div className="order-item">
+                                <div className="order-item-left">
+                                    <div className="image"
+                                    style={{ backgroundImage: `url(${product.image.image_data.url})` }}
+                                    ></div>
+                                </div>
+                                <div className="order-item-right">
+                                    <h4>{product.item_data.name}</h4>
+                                    <p>$10.00</p>
+                                </div>
+                            </div>
+                        ))
+                        :
+                        <div className="order-item">No items</div>
+                    }             
+
+                    </div>
+                    
+
                     <h3>Discount</h3>
                     <div className="discount">
                         <label htmlFor="">Apply cupon code</label>
@@ -148,34 +177,35 @@ function OrderCheckout() {
                             <button className="button primary">Apply</button>
                         </div>
                     </div>
-                    <h3>Order Summary</h3>
-                    <div className="order-items">
+                    <div className="order-summary">
+                        <div className="payment_lines">
 
-
-                        {/* map cart items*/}
-                        {products.map(product => (
-
-                            <div className="order-item">
-                                <div className="order-item-left">
-                                    <div className="image"
-                                    style={{ backgroundImage: `url(${product.images[0]})` }}
-                                    ></div>
+                            <div className="payment_line">
+                                <div className="payment_line_left">
+                                    <p>Subtotal</p>
                                 </div>
-                                <div className="order-item-right">
-                                    <h4>{product.name}</h4>
+                                <div className="payment_line_right">
                                     <p>$10.00</p>
                                 </div>
                             </div>
-                        ))}             
-
-                    </div>
-                    <div className="order-summary">
-                        <div className="order-summary-items">
-                        </div>
-                            <div className="order-summary-item-left">
-                                <h4>Subtotal</h4>
-                                <p>$34567</p>
+                            <div className="payment_line">
+                                <div className="payment_line_left">
+                                    <p>Shipping</p>
+                                </div>
+                                <div className="payment_line_right">
+                                    <p>$10.00</p>
+                                </div>
                             </div>
+                            <div className="payment_line">
+                                <div className="payment_line_left">
+                                    <p>Tax</p>
+                                </div>
+                                <div className="payment_line_right">
+                                    <p>$10.00</p>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>   

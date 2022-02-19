@@ -1,4 +1,4 @@
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import React from 'react'
 //jquery
 import $ from 'jquery';
@@ -20,6 +20,8 @@ import {MdOutlineTrendingUp}    from 'react-icons/md';
 import {PoweroffOutlined,ShoppingCartOutlined} from '@ant-design/icons';
 import { AutoComplete, Input, Space, Button } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
+import { useSelector, useDispatch } from 'react-redux';
+import clearCart, { unselectItem } from '../../store/features/cart'
 
 
 //function to solit breadcrumbs string  by /
@@ -63,6 +65,7 @@ function showTrendings(){
 
 function Header() {
     let history = useHistory();
+    let dispatch = useDispatch();
     const [breadcrumbs, setBreadcrumbs] = useState (getBreadcrumbs(history.location.pathname));
 
     //SEARCH
@@ -170,9 +173,12 @@ function Header() {
  */
 
   //CART 
-    const [cart, setCart] = useState([]);
+    //get cart from the redux store useSelector
+    const cart = useSelector(state => state.cart.items);
+    console.log(cart)
     //if length of JSONified cart  from local storage is greater than 0 setCart to cart
     useEffect(() => { 
+        
     }, []);
 
     const [cartToggle, setCartToggle] = useState(false);
@@ -191,8 +197,7 @@ function Header() {
 
     function toggleCart() {
         setCartToggle(!cartToggle);
-        setCart(JSON.parse(localStorage.getItem('cart'))); 
-        console.log(cart)
+        //console.log(cart)
     }
 
 
@@ -260,6 +265,7 @@ function Header() {
                             </Tooltip>
                         }
                         >
+                            
                     <div href="#" className="order-icon"
                     onClick={toggleCart}
                     >
@@ -276,21 +282,30 @@ function Header() {
                     
                     {/* loop through cart and return JSX */}
                     {cart != null ? cart.map((item, index) => (
-
+                        
                     <Checkbox
+                    checked={item.selected}
+                    onChange={() => {
+                            dispatch(unselectItem(item))
+
+                    }}
                     key={index} /* onChange={onChange} */>
                     <div className="cart-item" >
-                        <div className="cart-item-img"></div>
+                        <div className="cart-item-img"
+                        style={{
+                            backgroundImage: `url(${item.image.image_data.url})`
+                        }}
+                        ></div>
                         <div className="cart-item-details">
                             <div className="cart-item-name">
                                     <NavLink to="/shop/product">
-                                        {item.name}
+                                        {item.item_data.name}
                                     </NavLink>
                                 
                                 <p></p>
                             </div>
                             <div className="cart-item-price">
-                                <p>$0.00</p>
+                                <p>₹{item.item_data.variations[0].item_variation_data.price_money.amount/100}</p>
                             </div>
                         </div>
                     </div>
@@ -301,16 +316,9 @@ function Header() {
 
                     {/* Button from antd */}
                     <Space style={{ width: '100%' }}>
-                        <Button
-                            block={true}
-                            className="buy-now-button"
-                                type="secondary"
-                            icon={<ShoppingCartOutlined />}
-                            loading={false}
-                            //links
-                            href="/cart"       
-                            /* onClick={() => this.enterLoading(1)} */
-                        >View vcart</Button>
+                        <Link to="/cart"><div className="order-icon"
+                    >Cart</div></Link>
+                    
                         <Button
                             block={true}
                             className="buy-now-button"
@@ -319,6 +327,17 @@ function Header() {
                             loading={false}
                             /* onClick={() => this.enterLoading(1)} */
                         >Buy Now</Button>
+                        <Button
+                            block={true}
+                            className="clear-button"
+                            type="danger"
+                            icon={<ShoppingCartOutlined />}
+                            loading={false}
+                            onClick={() => {
+                                dispatch({type: 'cart/clearCart'})
+                            }}
+                        >Clear Cart</Button>
+                        
                     </Space>
                     </div>
             </div>
